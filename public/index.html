@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f0d15">
+  <title>Bozza's Jukebox</title>
+  <link rel="icon" href="/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="brand">
+      <img class="logo" src="/logo.svg" alt="" width="40" height="40">
+      <h1>Bozza's Jukebox</h1>
+    </header>
+
+    <section class="card now" id="now" hidden>
+      <img id="nowArt" alt="" class="art-lg">
+      <div class="now-text">
+        <p class="eyebrow" id="nowLabel">Now playing</p>
+        <p class="title" id="nowTitle"></p>
+        <p class="sub" id="nowArtist"></p>
+        <p class="by" id="nowBy" hidden></p>
+        <p class="msg" id="nowMsg" hidden></p>
+        <div class="progress"><span id="nowProgress"></span></div>
+      </div>
+    </section>
+
+    <div class="banner" id="banner" hidden></div>
+
+    <nav class="tabs" role="tablist">
+      <button role="tab" id="tabBtn-find" data-tab="find" aria-selected="true">Find songs</button>
+      <button role="tab" id="tabBtn-queue" data-tab="queue" aria-selected="false">Queue <span class="count" id="queueCount"></span></button>
+    </nav>
+
+    <!-- Find songs: search + genre browsing -->
+    <section id="tab-find" role="tabpanel">
+      <label class="field">
+        <span class="sr-only">Search for a song</span>
+        <input id="q" type="search" placeholder="Search for a song or artist…" autocomplete="off" enterkeyhint="search">
+      </label>
+      <details class="name-box">
+        <summary>Requesting as <strong id="nameShown">Someone</strong></summary>
+        <input id="name" type="text" maxlength="30" placeholder="Your name (optional)">
+      </details>
+
+      <h2>Browse by genre</h2>
+      <div class="chips" id="genres"></div>
+
+      <h2 id="resultsTitle" hidden></h2>
+      <ul class="list" id="results"></ul>
+      <button class="ghost more" id="moreBtn" hidden>Load more</button>
+    </section>
+
+    <!-- Queue: your requests + what's coming up -->
+    <section id="tab-queue" role="tabpanel" hidden>
+      <div id="mineSection" hidden>
+        <h2>Your requests</h2>
+        <ul class="list" id="mine"></ul>
+      </div>
+
+      <h2>Up next</h2>
+      <ol class="list numbered" id="upNext"></ol>
+      <p class="empty" id="upNextEmpty">Nothing queued yet — go request something!</p>
+
+      <div id="pendingSection" hidden>
+        <h2>Waiting for the host</h2>
+        <ul class="list" id="pending"></ul>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/guest.js" type="module"></script>
+</body>
+</html>

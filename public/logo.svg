@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Bozza's Jukebox">
+  <!-- cabinet -->
+  <path d="M10 57V30a22 22 0 0 1 44 0v27z" fill="#ffb547"/>
+  <!-- neon bubble arc -->
+  <path d="M15.5 30a16.5 16.5 0 0 1 33 0" fill="none" stroke="#ff5d8f" stroke-width="3" stroke-linecap="round"/>
+  <!-- record window -->
+  <path d="M20 41V30a12 12 0 0 1 24 0v11z" fill="#1d1300"/>
+  <circle cx="32" cy="33" r="6.5" fill="none" stroke="#ffb547" stroke-width="1.2" opacity=".45"/>
+  <text x="32" y="38.4" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="14" fill="#ffb547">B</text>
+  <!-- speaker grille -->
+  <rect x="20" y="45" width="24" height="9" rx="2" fill="#1d1300"/>
+  <path d="M24 48.2h16M24 51.4h16" stroke="#ffb547" stroke-width="1.4" stroke-linecap="round" opacity=".8"/>
+  <!-- plinth -->
+  <rect x="7" y="56" width="50" height="5" rx="2.5" fill="#c9821c"/>
+</svg>

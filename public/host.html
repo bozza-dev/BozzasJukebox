@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f0d15">
+  <title>Bozza's Jukebox · Host</title>
+  <link rel="icon" href="/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <main class="wrap wide">
+    <header class="brand">
+      <img class="logo" src="/logo.svg" alt="" width="40" height="40">
+      <h1>Bozza's Jukebox</h1>
+      <span class="tag host-tag">HOST</span>
+      <span class="spacer"></span>
+      <a id="connectBtn" href="/login" hidden><button>Connect Spotify</button></a>
+      <button id="disconnectBtn" class="ghost" hidden>Disconnect</button>
+    </header>
+
+    <div class="banner" id="banner" hidden></div>
+
+    <div class="grid">
+      <aside>
+        <section class="card">
+          <h2 style="margin-top:0">Guests scan to join</h2>
+          <div class="qr" id="qr"></div>
+          <p class="join-url" id="joinUrl"></p>
+        </section>
+
+        <details class="card settings" id="settingsBox" style="margin-top:16px">
+          <summary>
+            <span class="settings-title">⚙ Settings</span>
+            <span class="settings-summary" id="settingsSummary"></span>
+          </summary>
+          <div class="setting">
+            <div>Auto-approve<small>Send requests straight to the queue</small></div>
+            <label class="switch"><input type="checkbox" id="autoApprove"><span></span></label>
+          </div>
+          <div class="setting">
+            <div>Allow explicit songs</div>
+            <label class="switch"><input type="checkbox" id="allowExplicit"><span></span></label>
+          </div>
+          <div class="setting">
+            <div>Pause requests<small>Guests can still browse</small></div>
+            <label class="switch"><input type="checkbox" id="paused"><span></span></label>
+          </div>
+          <div class="setting">
+            <div>Max waiting per guest</div>
+            <input type="number" id="maxPendingPerGuest" min="1" max="50">
+          </div>
+          <div class="setting">
+            <div>Cooldown (seconds)<small>Between one guest's requests</small></div>
+            <input type="number" id="cooldownSec" min="0" max="3600">
+          </div>
+        </details>
+      </aside>
+
+      <div>
+        <section class="card now" id="now" hidden>
+          <img id="nowArt" alt="" class="art-lg">
+          <div class="now-text">
+            <p class="eyebrow" id="nowLabel">Now playing</p>
+            <p class="title" id="nowTitle"></p>
+            <p class="sub" id="nowArtist"></p>
+            <div class="progress"><span id="nowProgress"></span></div>
+          </div>
+          <button class="ghost" id="skipBtn">Skip ⏭</button>
+        </section>
+
+        <div class="head-row">
+          <h2>Waiting for approval <span id="pendingCount"></span></h2>
+          <button class="good" id="approveAllBtn" hidden>Approve all</button>
+        </div>
+        <ul class="list" id="pending"></ul>
+        <p class="empty" id="pendingEmpty">No requests waiting.</p>
+
+        <h2>Recently handled</h2>
+        <ul class="list" id="history"></ul>
+        <p class="empty" id="historyEmpty">Nothing yet.</p>
+      </div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="/host.js" type="module"></script>
+</body>
+</html>
