@@ -269,14 +269,14 @@ function queuePosition(r, state) {
 }
 
 function renderQueue(state, requestedBy) {
-  const myUris = new Set(state.mine.filter(r => r.status !== 'rejected').map(r => r.track.uri));
+  const myUris = new Set(state.mine.filter(r => r.status === 'pending' || r.status === 'queued').map(r => r.track.uri));
 
   // Your requests, with live position
   $('mineSection').hidden = !state.mine.length;
   $('mine').replaceChildren(...state.mine.map(r => trackRow(r.track,
     r.status === 'queued' ? queuePosition(r, state)
       : r.status === 'pending' ? status('pending', 'Waiting for host')
-        : status('rejected', 'Not this time'),
+        : status('rejected', r.status === 'removed' ? 'Taken off the queue' : 'Not this time'),
     r.message ? el('div', { className: 'msg', textContent: r.message }) : null)));
 
   // Spotify's real queue, numbered, with your songs highlighted

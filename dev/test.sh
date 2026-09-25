@@ -115,7 +115,23 @@ post "$H" 'api.php?a=host/settings' '{"allowExplicit":false,"maxPendingPerGuest"
 check "settings clamp to limits"            "$(get "$H" 'api.php?a=host/state' | jq_ 'd["settings"]["maxPendingPerGuest"]')" 50
 check "explicit songs marked blocked"       "$(get "$G2" 'api.php?a=search&q=x' | jq_ '[t["blocked"] for t in d["tracks"]]')" '[False, True, False]'
 check "explicit request refused"            "$(post "$G2" 'api.php?a=request' "{\"trackId\":\"$T2\"}")" 'EXPLICIT'
+
+echo "Playback and removing from the queue"
+check "pause"                               "$(post "$H" 'api.php?a=host/play-pause' '{"play":false}')" '"ok":true'
+check "host sees it paused"                 "$(get "$H" 'api.php?a=host/state' | jq_ 'd["player"]["isPlaying"]')" False
+post "$H" 'api.php?a=host/play-pause' '{"play":true}' >/dev/null
+check "play again"                          "$(get "$H" 'api.php?a=host/state' | jq_ 'd["player"]["isPlaying"]')" True
+check "remove needs a real song"            "$(post "$H" 'api.php?a=host/remove' '{"uri":"nope"}')" 'Unknown song'
+check "remove a queued request"             "$(post "$H" 'api.php?a=host/remove' "{\"uri\":\"spotify:track:$T3\",\"requestId\":\"$ID3\"}")" '"ok":true'
+STATE_JSON=$(get "$G" 'api.php?a=state')
+check "removed song hidden from the queue"  "$(echo "$STATE_JSON" | jq_ '",".join(t["id"][-1] for t in d["player"]["upNext"])')" '1'
+check "request marked removed"              "$(get "$H" 'api.php?a=host/state' | jq_ '[r["status"] for r in d["requests"] if r["id"]=="'$ID3'"][0]')" 'removed'
+check "guest can't request it again"        "$(post "$G2" 'api.php?a=request' "{\"trackId\":\"$T3\"}")" 'REMOVED'
 check "skip"                                "$(post "$H" 'api.php?a=host/skip' '{}')" '"ok":true'
+check "next song plays"                     "$(get "$G" 'api.php?a=state' | jq_ 'd["player"]["nowPlaying"]["id"][-1]')" '1'
+post "$H" 'api.php?a=host/skip' '{}' >/dev/null   # Spotify now starts the removed song...
+get "$G" 'api.php?a=state' >/dev/null             # ...and the next poll skips it
+check "removed song skipped when it starts" "$(get "$G" 'api.php?a=state' | jq_ 'd["player"]["nowPlaying"]')" 'None'
 
 echo "Auto-approve, including requests made while nothing plays"
 curl -s -X POST "http://127.0.0.1:$MOCK/__reset" >/dev/null   # speaker off, queue empty

@@ -27,6 +27,10 @@ if ($path === '/v1/me/player/queue' && $method === 'POST') {
     $st['queue'][] = $_GET['uri']; $save(); $out(200);
 }
 if ($path === '/v1/me/player/queue') $out(200, ['queue' => array_map(function ($u) use ($track) { return $track(explode(':', $u)[2]); }, $st['queue'])]);
-if ($path === '/v1/me/player/currently-playing') $st['device'] ? $out(200, ['is_playing' => true, 'progress_ms' => 1000, 'item' => $track($id('z'))]) : $out(204);
-if ($path === '/v1/me/player/next') { array_shift($st['queue']); $save(); $out(204); }
+// 'current' is the playing track's id: "…z" until the first skip, then whatever came off the queue.
+$current = array_key_exists('current', $st) ? $st['current'] : $id('z');
+if ($path === '/v1/me/player/currently-playing') $st['device'] && $current ? $out(200, ['is_playing' => $st['playing'] ?? true, 'progress_ms' => 1000, 'item' => $track($current)]) : $out(204);
+if ($path === '/v1/me/player/next') { $st['current'] = $st['queue'] ? explode(':', array_shift($st['queue']))[2] : null; $save(); $out(204); }
+if ($path === '/v1/me/player/pause' && $method === 'PUT') { $st['playing'] = false; $save(); $out(204); }
+if ($path === '/v1/me/player/play' && $method === 'PUT') { $st['playing'] = true; $save(); $out(204); }
 $out(404, ['error' => ['status' => 404, 'message' => 'nope']]);

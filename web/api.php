@@ -76,6 +76,9 @@ function make_request(array $body): array
                 && ($x['status'] === 'pending' || ($x['status'] === 'queued' && $now - (int) $x['decidedAt'] < 3600000))) {
                 throw new ApiError(409, 'DUPLICATE', 'Someone already requested that one!');
             }
+            if (!$host && $x['track']['id'] === $track['id'] && $x['status'] === 'removed' && $now - (int) $x['decidedAt'] < 3600000) {
+                throw new ApiError(409, 'REMOVED', 'The host took that one off the queue.');
+            }
         }
 
         if (!$host) {
@@ -188,6 +191,28 @@ function host_action(string $action): array
                 return $set;
             });
             return ['settings' => $settings];
+
+        case 'host/remove':
+            // Take a song off the queue (see apply_removals), and mark the guest's request as removed.
+            $uri = (string) ($body['uri'] ?? '');
+            if (!preg_match('/^spotify:(track|episode):[A-Za-z0-9]{22}$/', $uri)) throw new ApiError(400, 'BAD_REQUEST', 'Unknown song.');
+            $requestId = (string) ($body['requestId'] ?? '');
+            with_store('state', function (array &$s) use ($uri, $requestId) {
+                $s['removed'] = array_slice(array_merge($s['removed'] ?? [], [$uri]), -50);
+                foreach ($s['requests'] ?? [] as $i => $r) {
+                    if ($r['id'] === $requestId && $r['status'] === 'queued' && $r['track']['uri'] === $uri) {
+                        $s['requests'][$i]['status'] = 'removed';
+                        $s['requests'][$i]['decidedAt'] = now_ms();
+                    }
+                }
+            });
+            invalidate_player();
+            return ['ok' => true];
+
+        case 'host/play-pause':
+            spotify('PUT', empty($body['play']) ? '/me/player/pause' : '/me/player/play');
+            invalidate_player();
+            return ['ok' => true];
 
         case 'host/skip':
             spotify('POST', '/me/player/next');
