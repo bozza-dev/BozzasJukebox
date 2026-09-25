@@ -62,6 +62,8 @@ The test uses a throwaway copy with a fake Spotify, so it never touches your rea
 
 ## Good to know
 
-- Spotify has no API to remove a song from the queue. Once a song is approved it will play, although you can still skip it.
+- The host page shows Spotify's queue (the next 20 songs), with **Remove** on each one, plus **Pause/Play** and **Skip** for the current song.
+- Spotify has no API to remove a song from its queue, so a removed song stays in the Spotify app. The jukebox hides it from everyone and skips it as soon as it starts. That skip happens when a host or guest page next checks in (every few seconds), so keep the host page open.
+- On a computer-sized screen (1200px wide or more), the host page adds a chat-style log of every message guests sent with their requests.
 - With auto-approve on, requests made while nothing is playing are saved and queued automatically once music starts.
 - Spotify's developer terms restrict commercial use, so check them before using this at a bar or venue.

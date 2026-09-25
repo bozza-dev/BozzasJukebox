@@ -396,15 +396,56 @@ function get_player(): array
                 'nowPlaying' => to_item($current['item'] ?? null),
                 'upNext' => array_values(array_filter(array_map('to_item', array_slice($queue['queue'] ?? [], 0, 20)))),
             ];
+            [$data, $skipped] = apply_removals($data, $queue === null ? null : array_column($queue['queue'] ?? [], 'uri'));
         } catch (ApiError $e) {
             $data = empty_player() + ['error' => $e->errCode];
+            $skipped = false;
         }
-        write_store('player', ['at' => microtime(true), 'data' => $data]);
+        // After skipping a removed song, look again on the next poll instead of trusting this copy.
+        write_store('player', ['at' => $skipped ? 0 : microtime(true), 'data' => $data]);
     } finally {
         release_lock($lock);
     }
     if ($data['nowPlaying']) retry_stalled();
     return $data;
+}
+
+// Spotify has no way to take a song out of its queue. So a song the host removes is hidden
+// from everyone's view of the queue here, and skipped the moment Spotify starts playing it.
+// $queueUris is Spotify's whole queue, or null if it couldn't be fetched.
+function apply_removals(array $data, ?array $queueUris): array
+{
+    if (empty(read_store('state')['removed'])) return [$data, false];
+    $skip = with_store('state', function (array &$s) use (&$data, $queueUris) {
+        $removed = $s['removed'] ?? [];
+        $np = $data['nowPlaying']['uri'] ?? '';
+        $skip = false;
+        $i = array_search($np, $removed, true);
+        if ($np !== '' && $i !== false) {
+            unset($removed[$i]);
+            $skip = true;
+        }
+        // Forget songs that left Spotify's queue some other way (the host cleared it or started a new playlist).
+        if ($queueUris !== null) {
+            $removed = array_filter($removed, function ($uri) use ($queueUris) { return in_array($uri, $queueUris, true); });
+        }
+        $s['removed'] = array_values($removed);
+
+        $hide = array_count_values($s['removed']);
+        $data['upNext'] = array_values(array_filter($data['upNext'], function ($t) use (&$hide) {
+            if (empty($hide[$t['uri']])) return true;
+            $hide[$t['uri']]--;
+            return false;
+        }));
+        return $skip;
+    });
+    if ($skip) {
+        try { spotify('POST', '/me/player/next'); } catch (ApiError $e) { return [$data, false]; }
+        // Spotify moves on to the next song; show that until the next poll confirms it.
+        $data['nowPlaying'] = $data['upNext'] ? array_shift($data['upNext']) : null;
+        $data['progressMs'] = 0;
+    }
+    return [$data, $skip];
 }
 
 function invalidate_player(): void

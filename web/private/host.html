@@ -67,7 +67,10 @@
             <p class="sub" id="nowArtist"></p>
             <div class="progress"><span id="nowProgress"></span></div>
           </div>
-          <button class="ghost" id="skipBtn">Skip ⏭</button>
+          <div class="now-controls">
+            <button class="ghost" id="playPauseBtn">Pause ⏸</button>
+            <button class="ghost" id="skipBtn">Skip ⏭</button>
+          </div>
         </section>
 
         <div class="head-row">
@@ -77,10 +80,21 @@
         <ul class="list" id="pending"></ul>
         <p class="empty" id="pendingEmpty">No requests waiting.</p>
 
+        <h2>Up next <span id="upNextCount"></span></h2>
+        <ul class="list numbered" id="upNext"></ul>
+        <p class="empty" id="upNextEmpty">Nothing queued in Spotify.</p>
+        <p class="hint" id="upNextHint" hidden>Spotify can’t take songs out of its queue, so a removed song stays in the Spotify app but is skipped here as soon as it starts.</p>
+
         <h2>Recently handled</h2>
         <ul class="list" id="history"></ul>
         <p class="empty" id="historyEmpty">Nothing yet.</p>
       </div>
+
+      <section class="card chat" id="chat" aria-labelledby="chatTitle">
+        <h2 id="chatTitle">Messages <span id="chatCount"></span></h2>
+        <ol class="chat-log" id="chatLog" aria-live="polite"></ol>
+        <p class="empty" id="chatEmpty">Messages guests send with their requests show up here.</p>
+      </section>
     </div>
   </main>
 
