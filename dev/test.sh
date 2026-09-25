@@ -122,7 +122,8 @@ check "host sees it paused"                 "$(get "$H" 'api.php?a=host/state' |
 post "$H" 'api.php?a=host/play-pause' '{"play":true}' >/dev/null
 check "play again"                          "$(get "$H" 'api.php?a=host/state' | jq_ 'd["player"]["isPlaying"]')" True
 check "remove needs a real song"            "$(post "$H" 'api.php?a=host/remove' '{"uri":"nope"}')" 'Unknown song'
-check "remove a queued request"             "$(post "$H" 'api.php?a=host/remove' "{\"uri\":\"spotify:track:$T3\",\"requestId\":\"$ID3\"}")" '"ok":true'
+BODY="{\"uri\":\"spotify:track:$T3\",\"requestId\":\"$ID3\"}"   # a variable: macOS bash 3.2 brace-expands {a,b} inside "$(...)"
+check "remove a queued request"             "$(post "$H" 'api.php?a=host/remove' "$BODY")" '"ok":true'
 STATE_JSON=$(get "$G" 'api.php?a=state')
 check "removed song hidden from the queue"  "$(echo "$STATE_JSON" | jq_ '",".join(t["id"][-1] for t in d["player"]["upNext"])')" '1'
 check "request marked removed"              "$(get "$H" 'api.php?a=host/state' | jq_ '[r["status"] for r in d["requests"] if r["id"]=="'$ID3'"][0]')" 'removed'
