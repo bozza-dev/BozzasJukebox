@@ -203,3 +203,17 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .compose { flex-basis: 100%; display: flex; gap: 8px; padding: 2px 0 2px 60px; }
 .compose input { padding: 10px 14px; font-size: 0.95rem; }
 @media (max-width: 420px) { .compose { padding-left: 0; } }
+
+/* ---------- host login ---------- */
+
+.wrap.narrow { max-width: 420px; }
+.login { display: grid; gap: 12px; margin-top: 24px; }
+.login label { font-weight: 600; }
+.login input[type="password"] {
+  width: 100%; font: inherit; color: var(--text); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; outline: none;
+}
+.login input:focus-visible { border-color: var(--accent); box-shadow: 0 0 0 3px rgb(255 181 71 / 0.2); }
+.login .err { margin: 0; font-size: 0.9rem; }
+.logout { color: var(--muted); font-size: 0.9rem; text-decoration: none; }
+.logout:hover { color: var(--text); text-decoration: underline; }

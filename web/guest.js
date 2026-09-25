@@ -156,7 +156,7 @@ async function runSearch() {
   setActiveGenre(null);
   const seq = ++resultsSeq;
   try {
-    const { tracks } = await api('/api/search?q=' + encodeURIComponent(q));
+    const { tracks } = await api('api.php?a=search&q=' + encodeURIComponent(q));
     if (seq === resultsSeq) showResults('', tracks);
   } catch (err) {
     if (seq === resultsSeq) toast(err.message, true);
@@ -175,7 +175,7 @@ async function loadGenre(append) {
   const seq = ++resultsSeq;
   $('moreBtn').disabled = true;
   try {
-    const { tracks, hasMore } = await api(`/api/browse?genre=${encodeURIComponent(g.key)}&page=${g.page}`);
+    const { tracks, hasMore } = await api(`api.php?a=browse&genre=${encodeURIComponent(g.key)}&page=${g.page}`);
     if (seq === resultsSeq) showResults(g.label, tracks, { append, hasMore });
   } catch (err) {
     if (seq === resultsSeq) toast(err.message, true);
@@ -190,7 +190,7 @@ $('moreBtn').addEventListener('click', () => {
   loadGenre(true);
 });
 
-api('/api/genres').then(({ genres }) => {
+api('api.php?a=genres').then(({ genres }) => {
   $('genres').replaceChildren(...genres.map(g => {
     const chip = el('button', { className: 'chip', textContent: g.label });
     chip.dataset.key = g.key;
@@ -212,7 +212,7 @@ async function requestTrack(track, btn, message, sendBtn) {
   sendBtn.disabled = true;
   sendBtn.textContent = '…';
   try {
-    const { request, queueError } = await api('/api/request', {
+    const { request, queueError } = await api('api.php?a=request', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ trackId: track.id, guestName: $('name').value, message }),
@@ -299,7 +299,7 @@ function renderQueue(state, requestedBy) {
 
 async function refresh() {
   try {
-    const state = await api('/api/state');
+    const state = await api('api.php?a=state');
     const requestedBy = new Map();
     for (const r of state.requests) {
       if (r.status === 'queued' && !requestedBy.has(r.track.uri)) requestedBy.set(r.track.uri, r);

@@ -56,7 +56,7 @@ function requestRow(r, right) {
 function messageLine(r) {
   const remove = el('button', { className: 'msg-remove', textContent: '✕', title: 'Remove this message' });
   remove.setAttribute('aria-label', 'Remove this message');
-  remove.addEventListener('click', () => act('/api/host/clear-message', r.id, remove, 'Message removed'));
+  remove.addEventListener('click', () => act('api.php?a=host/clear-message', r.id, remove, 'Message removed'));
   return el('div', { className: 'msg' }, [el('span', { textContent: r.message }), remove]);
 }
 
@@ -119,8 +119,8 @@ function render(state) {
   $('pending').replaceChildren(...pending.map(r => {
     const approve = el('button', { className: 'good', textContent: r.error ? 'Retry' : 'Add' });
     const reject = el('button', { className: 'bad', textContent: 'Skip' });
-    approve.addEventListener('click', () => act('/api/host/approve', r.id, approve, `Queued “${r.track.name}”`));
-    reject.addEventListener('click', () => act('/api/host/reject', r.id, reject));
+    approve.addEventListener('click', () => act('api.php?a=host/approve', r.id, approve, `Queued “${r.track.name}”`));
+    reject.addEventListener('click', () => act('api.php?a=host/reject', r.id, reject));
     return requestRow(r, el('div', { className: 'actions' }, [approve, reject]));
   }));
 
@@ -159,18 +159,18 @@ for (const k of SETTINGS_NUMBERS) {
 }
 
 async function saveSettings(patch) {
-  try { await api('/api/host/settings', patch); } catch (err) { toast(err.message, true); }
+  try { await api('api.php?a=host/settings', patch); } catch (err) { toast(err.message, true); }
   refresh();
 }
 
 $('skipBtn').addEventListener('click', async () => {
-  try { await api('/api/host/skip', {}); } catch (err) { toast(err.message, true); }
+  try { await api('api.php?a=host/skip', {}); } catch (err) { toast(err.message, true); }
   setTimeout(refresh, 600);
 });
 
 $('approveAllBtn').addEventListener('click', async () => {
   try {
-    const { queued } = await api('/api/host/approve-all', {});
+    const { queued } = await api('api.php?a=host/approve-all', {});
     toast(`Queued ${queued} song${queued === 1 ? '' : 's'}`);
   } catch (err) { toast(err.message, true); }
   refresh();
@@ -178,13 +178,13 @@ $('approveAllBtn').addEventListener('click', async () => {
 
 $('disconnectBtn').addEventListener('click', async () => {
   if (!confirm('Disconnect Spotify? Guests won’t be able to request until you reconnect.')) return;
-  await api('/api/host/disconnect', {}).catch(err => toast(err.message, true));
+  await api('api.php?a=host/disconnect', {}).catch(err => toast(err.message, true));
   refresh();
 });
 
 async function refresh() {
   try {
-    render(await api('/api/host/state'));
+    render(await api('api.php?a=host/state'));
   } catch (err) {
     toast(err.message, true);
   }

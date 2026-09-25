@@ -1,0 +1,17 @@
+# Publishing settings for Bozza's Jukebox. TEMPLATE — copy, don't edit:
+#   cp publish.conf.example publish.conf
+# publish.conf is gitignored. Never put a password in it: sftp asks for the
+# password when it connects, and publish.command refuses to run if it finds one.
+
+HOST=access-XXXXXXXXXX.webspace-host.com
+PORT=22
+USER=suXXXXXX
+SSH_KEY=
+
+# Absolute path as the SFTP login sees it (not as the IONOS file manager shows it).
+# Must end in /jukebox — the script refuses anything else so it can never write
+# over the landing page or another app.
+REMOTE_DIR=/public/jukebox
+
+# The https address REMOTE_DIR is served at, with a trailing slash.
+PUBLIC_URL=https://bozzaweb.com/jukebox/

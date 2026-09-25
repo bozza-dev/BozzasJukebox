@@ -1,4 +1,10 @@
-node_modules/
+# Secrets and live data — never commit
+web/private/config.php
+web/private/data/
+publish.conf
+
+# Left over from the Node version (hold the Spotify secret and login)
 .env
 .jukebox-data.json
+
 .DS_Store

@@ -1,0 +1,18 @@
+[
+  {"key":"pop","label":"Pop","artists":["Taylor Swift","Dua Lipa","The Weeknd","Sabrina Carpenter","Bruno Mars","Ariana Grande","Lady Gaga","Harry Styles","Olivia Rodrigo","Chappell Roan","Ed Sheeran","Justin Bieber"]},
+  {"key":"hiphop","label":"Hip-Hop","artists":["Drake","Kendrick Lamar","Travis Scott","Eminem","Outkast","Kanye West","J. Cole","Doja Cat","Lil Wayne","Missy Elliott","50 Cent","Nicki Minaj"]},
+  {"key":"rnb","label":"R&B","artists":["SZA","Beyoncé","Usher","Rihanna","Frank Ocean","Alicia Keys","Chris Brown","Destiny's Child","Mariah Carey","Ne-Yo","Brent Faiyaz","Summer Walker"]},
+  {"key":"dance","label":"Dance","artists":["Calvin Harris","David Guetta","Fred again..","Avicii","Daft Punk","Disclosure","Swedish House Mafia","Kygo","The Chainsmokers","Martin Garrix","Fisher","Peggy Gou"]},
+  {"key":"rock","label":"Rock","artists":["Foo Fighters","Queen","AC/DC","Red Hot Chili Peppers","The Killers","Nirvana","Guns N' Roses","Fleetwood Mac","Green Day","Linkin Park","Kings of Leon","Arctic Monkeys"]},
+  {"key":"indie","label":"Indie","artists":["Tame Impala","MGMT","The Strokes","Florence + The Machine","Vampire Weekend","Glass Animals","Phoenix","Two Door Cinema Club","Hozier","The 1975","Mac DeMarco","Foster The People"]},
+  {"key":"country","label":"Country","artists":["Morgan Wallen","Luke Combs","Zach Bryan","Shania Twain","Dolly Parton","Chris Stapleton","Kacey Musgraves","Johnny Cash","Carrie Underwood","Lainey Wilson","Garth Brooks","Luke Bryan"]},
+  {"key":"latin","label":"Latin","artists":["Bad Bunny","Karol G","J Balvin","Daddy Yankee","Shakira","Rosalía","Peso Pluma","Feid","Rauw Alejandro","Ozuna","Pitbull","Marc Anthony"]},
+  {"key":"afrobeats","label":"Afrobeats","artists":["Burna Boy","Wizkid","Rema","Tems","Davido","Tyla","Ayra Starr","CKay","Asake","Fireboy DML"]},
+  {"key":"kpop","label":"K-Pop","artists":["BTS","BLACKPINK","NewJeans","Stray Kids","TWICE","Jung Kook","ROSÉ","aespa","SEVENTEEN","LE SSERAFIM"]},
+  {"key":"disco","label":"Disco & Funk","artists":["Bee Gees","ABBA","Earth, Wind & Fire","Chic","Donna Summer","Kool & The Gang","Gloria Gaynor","Stevie Wonder","Jamiroquai","Sister Sledge","Lipps Inc.","KC & The Sunshine Band"]},
+  {"key":"70s","label":"70s","year":"1970-1979","artists":["Fleetwood Mac","Queen","Elton John","Bee Gees","ABBA","Stevie Wonder","Michael Jackson","David Bowie","Eagles","The Jackson 5","Earth, Wind & Fire","Led Zeppelin"]},
+  {"key":"80s","label":"80s","year":"1980-1989","artists":["Michael Jackson","Madonna","Whitney Houston","Prince","a-ha","Cyndi Lauper","Bon Jovi","Tears For Fears","Wham!","Journey","Toto","Duran Duran"]},
+  {"key":"90s","label":"90s","year":"1990-1999","artists":["TLC","Backstreet Boys","Spice Girls","Oasis","Britney Spears","No Doubt","Alanis Morissette","Coolio","Ace of Base","Nirvana","Mariah Carey","Blur"]},
+  {"key":"00s","label":"2000s","year":"2000-2009","artists":["Beyoncé","Usher","The Black Eyed Peas","Nelly Furtado","The Killers","Outkast","Kelly Clarkson","Rihanna","Justin Timberlake","Avril Lavigne","Gwen Stefani","Kanye West"]},
+  {"key":"10s","label":"2010s","year":"2010-2019","artists":["Rihanna","Bruno Mars","Drake","Katy Perry","Adele","Ed Sheeran","Calvin Harris","Taylor Swift","The Weeknd","Pharrell Williams","Mark Ronson","Lady Gaga"]}
+]

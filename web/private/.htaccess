@@ -1,0 +1,10 @@
+# Nothing in private/ is ever served: it holds config.php (Spotify secret,
+# host passcode), the data files (Spotify login) and the host page, which
+# host.php hands out only after the passcode is entered.
+<IfModule mod_authz_core.c>
+  Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+  Order allow,deny
+  Deny from all
+</IfModule>

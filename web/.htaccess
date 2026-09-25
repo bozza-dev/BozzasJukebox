@@ -1,0 +1,14 @@
+# Bozza's Jukebox
+Options -Indexes
+DirectoryIndex index.html
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "same-origin"
+</IfModule>
+
+# Belt and braces: refuse private/ even if its own .htaccess goes missing.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^private(/|$) - [F,L]
+</IfModule>
