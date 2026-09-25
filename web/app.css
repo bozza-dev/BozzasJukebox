@@ -32,9 +32,10 @@ body {
 
 .wrap.wide { max-width: 1080px; }
 
-.brand { display: flex; align-items: center; gap: 10px; margin: 4px 0 16px; }
-.brand h1 { font-size: 1.4rem; margin: 0; letter-spacing: -0.01em; }
+.brand { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 4px 0 16px; }
+.brand h1 { font-size: 1.4rem; margin: 0; letter-spacing: -0.01em; white-space: nowrap; }
 .brand .spacer { flex: 1; }
+@media (max-width: 380px) { .brand h1 { font-size: 1.15rem; } .brand .logo { width: 32px; height: 32px; } }
 .logo { width: 40px; height: 40px; display: block; flex-shrink: 0; }
 .tag.host-tag { background: var(--accent); color: var(--accent-ink); }
 
@@ -205,6 +206,10 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 @media (max-width: 420px) { .compose { padding-left: 0; } }
 
 /* ---------- host: playback, queue, chat log ---------- */
+
+/* On a narrow screen, host rows put their buttons on a line of their own rather than squeezing the text. */
+.host-row .meta { flex-basis: 180px; }
+.host-row > :last-child { margin-left: auto; }
 
 .now-controls { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
 .row .remove { padding: 7px 12px; font-size: 0.85rem; }

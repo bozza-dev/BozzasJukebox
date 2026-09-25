@@ -39,7 +39,7 @@ function ago(ts) {
 function requestRow(r, right) {
   const title = el('div', { className: 'title', textContent: r.track.name });
   if (r.track.explicit) title.append(el('span', { className: 'tag', textContent: 'E' }));
-  return el('li', { className: 'row' }, [
+  return el('li', { className: 'row host-row' }, [
     el('img', { src: r.track.thumb || '', alt: '', loading: 'lazy' }),
     el('div', { className: 'meta' }, [
       title,
@@ -158,7 +158,7 @@ function renderUpNext(state) {
       } catch (err) { toast(err.message, true); }
       refresh();
     });
-    return el('li', { className: 'row' }, [
+    return el('li', { className: 'row host-row' }, [
       el('img', { src: t.thumb || '', alt: '', loading: 'lazy' }),
       el('div', { className: 'meta' }, [
         title,
